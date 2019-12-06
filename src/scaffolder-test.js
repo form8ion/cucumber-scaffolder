@@ -36,7 +36,7 @@ suite('cucumber scaffolder', () => {
         eslintConfigs: ['cucumber']
       }
     );
-    assert.calledWith(fsPromises.copyFile, '../templates/cucumber.txt', `${projectRoot}/cucumber.js`);
+    assert.calledWith(fsPromises.copyFile, require.resolve('../templates/cucumber.txt'), `${projectRoot}/cucumber.js`);
     assert.calledWith(
       fsPromises.writeFile,
       `${projectRoot}/.gherkin-lintrc`,

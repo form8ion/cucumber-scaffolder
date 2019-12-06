@@ -2,7 +2,7 @@ import {promises as fsPromises} from 'fs';
 
 export default async function ({projectRoot}) {
   await Promise.all([
-    fsPromises.copyFile('../templates/cucumber.txt', `${projectRoot}/cucumber.js`),
+    fsPromises.copyFile(require.resolve('../templates/cucumber.txt'), `${projectRoot}/cucumber.js`),
     fsPromises.writeFile(
       `${projectRoot}/.gherkin-lintrc`,
       JSON.stringify({

@@ -15,7 +15,7 @@ export default async function ({projectRoot}) {
   ]);
 
   return {
-    devDependencies: ['cucumber', 'chai', 'gherkin-lint'],
+    devDependencies: ['@cucumber/cucumber', 'chai', 'gherkin-lint'],
     scripts: {
       'lint:gherkin': 'gherkin-lint',
       'test:integration': 'run-s \'test:integration:base -- --profile noWip\'',

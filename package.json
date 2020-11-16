@@ -23,7 +23,6 @@
     "lint:js": "eslint . --cache",
     "lint:md": "remark . --frail",
     "lint:sensitive": "ban",
-    "disabled:lint:travis": "travis-lint .travis.yml",
     "clean": "rimraf ./lib",
     "prebuild": "run-s clean",
     "build": "npm-run-all --print-label --parallel build:*",
@@ -55,7 +54,7 @@
     "rimraf": "3.0.2",
     "rollup": "2.33.2",
     "rollup-plugin-auto-external": "2.0.0",
-    "sinon": "9.2.1",
-    "travis-lint": "1.0.0"
-  }
+    "sinon": "9.2.1"
+  },
+  "dependencies": {}
 }

@@ -1,20 +1,10 @@
-import {resolve} from 'node:path';
-import {promises as fs} from 'node:fs';
-
-import filedirname from 'filedirname';
-import mustache from 'mustache';
-
-import {scaffold} from './gherkin-lint';
+import {scaffold as scaffoldGherkinLint} from './gherkin-lint';
+import {scaffold as scaffoldCucumber} from './cucumber';
 
 export default async function ({projectRoot}) {
-  const [, __dirname] = filedirname();
-
   await Promise.all([
-    fs.writeFile(
-      `${projectRoot}/cucumber.js`,
-      mustache.render(await fs.readFile(resolve(__dirname, '..', 'templates', 'cucumber.mjs'), 'utf-8'))
-    ),
-    scaffold({projectRoot})
+    scaffoldCucumber({projectRoot}),
+    scaffoldGherkinLint({projectRoot})
   ]);
 
   return {

@@ -1,10 +1,10 @@
-import {promises as fs} from 'node:fs';
 import mustache from 'mustache';
 
 import {assert} from 'chai';
 import any from '@travi/any';
 import sinon from 'sinon';
 
+import * as cucumberScaffolder from './cucumber/scaffolder';
 import * as gherkinLintScaffolder from './gherkin-lint/scaffolder';
 import scaffoldCucumber from './scaffolder';
 
@@ -15,21 +15,14 @@ suite('cucumber scaffolder', () => {
   setup(() => {
     sandbox = sinon.createSandbox();
 
-    sandbox.stub(fs, 'readFile');
-    sandbox.stub(fs, 'writeFile');
-    sandbox.stub(gherkinLintScaffolder, 'default');
     sandbox.stub(mustache, 'render');
+    sandbox.stub(gherkinLintScaffolder, 'default');
+    sandbox.stub(cucumberScaffolder, 'default');
   });
 
   teardown(() => sandbox.restore());
 
   test('that cucumber is scaffolded', async () => {
-    const renderedTemplate = any.string();
-    const template = any.string();
-    fs.writeFile.resolves();
-    fs.readFile.withArgs(require.resolve('../templates/cucumber.mjs'), 'utf-8').resolves(template);
-    mustache.render.withArgs(template).returns(renderedTemplate);
-
     assert.deepEqual(
       await scaffoldCucumber({projectRoot}),
       {
@@ -46,7 +39,7 @@ suite('cucumber scaffolder', () => {
         eslintConfigs: ['cucumber']
       }
     );
-    assert.calledWith(fs.writeFile, `${projectRoot}/cucumber.js`, renderedTemplate);
+    assert.calledWith(cucumberScaffolder.default, {projectRoot});
     assert.calledWith(gherkinLintScaffolder.default, {projectRoot});
   });
 });

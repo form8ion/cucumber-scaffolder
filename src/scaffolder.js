@@ -1,7 +1,8 @@
 import {resolve} from 'node:path';
-import {promises as fsPromises} from 'node:fs';
+import {promises as fs} from 'node:fs';
 
 import filedirname from 'filedirname';
+import mustache from 'mustache';
 import {fileTypes} from '@form8ion/core';
 import {write} from '@form8ion/config-file';
 
@@ -9,7 +10,10 @@ export default async function ({projectRoot}) {
   const [, __dirname] = filedirname();
 
   await Promise.all([
-    fsPromises.copyFile(resolve(__dirname, '..', 'templates', 'cucumber.mjs'), `${projectRoot}/cucumber.js`),
+    fs.writeFile(
+      `${projectRoot}/cucumber.js`,
+      mustache.render(await fs.readFile(resolve(__dirname, '..', 'templates', 'cucumber.mjs'), 'utf-8'))
+    ),
     write({
       path: projectRoot,
       name: 'gherkin-lint',

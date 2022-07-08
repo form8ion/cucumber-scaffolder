@@ -1,7 +1,10 @@
-import {promises as fsPromises} from 'fs';
+import {promises as fs} from 'node:fs';
+import mustache from 'mustache';
+
 import {assert} from 'chai';
 import any from '@travi/any';
 import sinon from 'sinon';
+
 import scaffoldCucumber from './scaffolder';
 
 suite('cucumber scaffolder', () => {
@@ -11,15 +14,19 @@ suite('cucumber scaffolder', () => {
   setup(() => {
     sandbox = sinon.createSandbox();
 
-    sandbox.stub(fsPromises, 'copyFile');
-    sandbox.stub(fsPromises, 'writeFile');
+    sandbox.stub(fs, 'readFile');
+    sandbox.stub(fs, 'writeFile');
+    sandbox.stub(mustache, 'render');
   });
 
   teardown(() => sandbox.restore());
 
   test('that cucumber is scaffolded', async () => {
-    fsPromises.copyFile.resolves();
-    fsPromises.writeFile.resolves();
+    const renderedTemplate = any.string();
+    const template = any.string();
+    fs.writeFile.resolves();
+    fs.readFile.withArgs(require.resolve('../templates/cucumber.mjs'), 'utf-8').resolves(template);
+    mustache.render.withArgs(template).returns(renderedTemplate);
 
     assert.deepEqual(
       await scaffoldCucumber({projectRoot}),
@@ -38,9 +45,9 @@ suite('cucumber scaffolder', () => {
         eslintConfigs: ['cucumber']
       }
     );
-    assert.calledWith(fsPromises.copyFile, require.resolve('../templates/cucumber.mjs'), `${projectRoot}/cucumber.js`);
+    assert.calledWith(fs.writeFile, `${projectRoot}/cucumber.js`, renderedTemplate);
     assert.calledWith(
-      fsPromises.writeFile,
+      fs.writeFile,
       `${projectRoot}/.gherkin-lintrc.json`,
       JSON.stringify({
         'no-restricted-tags': ['on', {tags: ['@focus']}],

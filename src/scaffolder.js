@@ -1,8 +1,13 @@
-import {promises as fsPromises} from 'fs';
+import {resolve} from 'node:path';
+import {promises as fsPromises} from 'node:fs';
+
+import filedirname from 'filedirname';
 
 export default async function ({projectRoot}) {
+  const [, __dirname] = filedirname();
+
   await Promise.all([
-    fsPromises.copyFile(require.resolve('../templates/cucumber.txt'), `${projectRoot}/cucumber.js`),
+    fsPromises.copyFile(resolve(__dirname, '..', 'templates', 'cucumber.txt'), `${projectRoot}/cucumber.js`),
     fsPromises.writeFile(
       `${projectRoot}/.gherkin-lintrc`,
       JSON.stringify({
@@ -20,7 +25,7 @@ export default async function ({projectRoot}) {
       'lint:gherkin': 'gherkin-lint',
       'test:integration': 'run-s \'test:integration:base -- --profile noWip\'',
       'test:integration:base':
-        'NODE_OPTIONS=--enable-source-maps DEBUG=any cucumber-js test/integration --profile base',
+      'NODE_OPTIONS=--enable-source-maps DEBUG=any cucumber-js test/integration --profile base',
       'test:integration:debug': 'DEBUG=test run-s test:integration',
       'test:integration:wip': 'run-s \'test:integration:base -- --profile wip\'',
       'test:integration:wip:debug': 'DEBUG=test run-s \'test:integration:wip\'',

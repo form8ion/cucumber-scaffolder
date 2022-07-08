@@ -3,11 +3,13 @@ import {promises as fs} from 'node:fs';
 import mustache from 'mustache';
 
 import determinePathToTemplate from '../template-path';
+import resolveExtensionForProjectType from './extension-resolver';
 
 export default async function ({projectRoot}) {
+  const extension = await resolveExtensionForProjectType({projectRoot});
   await fs.writeFile(
-    `${projectRoot}/cucumber.js`,
-    mustache.render(await fs.readFile(determinePathToTemplate('cucumber.mjs'), 'utf-8'))
+    `${projectRoot}/cucumber.${extension}`,
+    mustache.render(await fs.readFile(determinePathToTemplate('cucumber.mustache'), 'utf-8'), {extension})
   );
 
   return {

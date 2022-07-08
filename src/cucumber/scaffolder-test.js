@@ -7,6 +7,7 @@ import sinon from 'sinon';
 import {assert} from 'chai';
 
 import * as templatePath from '../template-path';
+import * as extensionResolver from './extension-resolver';
 import scaffold from './scaffolder';
 
 suite('cucumber scaffolder', () => {
@@ -16,6 +17,7 @@ suite('cucumber scaffolder', () => {
     sandbox = sinon.createSandbox();
 
     sandbox.stub(templatePath, 'default');
+    sandbox.stub(extensionResolver, 'default');
     sandbox.stub(fs, 'readFile');
     sandbox.stub(fs, 'writeFile');
     sandbox.stub(mustache, 'render');
@@ -28,13 +30,15 @@ suite('cucumber scaffolder', () => {
     const template = any.string();
     const projectRoot = any.string();
     const pathToTemplate = any.string();
-    templatePath.default.withArgs('cucumber.mjs').returns(pathToTemplate);
+    const extension = any.word();
+    templatePath.default.withArgs('cucumber.mustache').returns(pathToTemplate);
     fs.readFile.withArgs(pathToTemplate, 'utf-8').resolves(template);
-    mustache.render.withArgs(template).returns(renderedTemplate);
+    mustache.render.withArgs(template, {extension}).returns(renderedTemplate);
+    extensionResolver.default.withArgs({projectRoot}).resolves(extension);
 
     const {devDependencies, scripts, eslintConfigs} = await scaffold({projectRoot});
 
-    assert.calledWith(fs.writeFile, `${projectRoot}/cucumber.js`, renderedTemplate);
+    assert.calledWith(fs.writeFile, `${projectRoot}/cucumber.${extension}`, renderedTemplate);
     assert.deepEqual(eslintConfigs, ['cucumber']);
     assert.deepEqual(devDependencies, ['@cucumber/cucumber', 'chai']);
     assert.deepEqual(

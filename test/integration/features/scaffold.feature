@@ -1,6 +1,5 @@
 Feature: Scaffold
 
-  @wip
   Scenario: common-js project
     Given the project is of type "commonjs"
     When the project is scaffolded

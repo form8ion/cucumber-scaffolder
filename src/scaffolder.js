@@ -9,7 +9,7 @@ export default async function ({projectRoot}) {
   const [, __dirname] = filedirname();
 
   await Promise.all([
-    fsPromises.copyFile(resolve(__dirname, '..', 'templates', 'cucumber.txt'), `${projectRoot}/cucumber.js`),
+    fsPromises.copyFile(resolve(__dirname, '..', 'templates', 'cucumber.mjs'), `${projectRoot}/cucumber.js`),
     write({
       path: projectRoot,
       name: 'gherkin-lint',

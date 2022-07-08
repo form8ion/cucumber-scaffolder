@@ -15,6 +15,7 @@ opinionated scaffolder for [Cucumber.js](https://github.com/cucumber/cucumber-js
 [![npm][npm-badge]][npm-link]
 [![Try @form8ion/cucumber-scaffolder on RunKit][runkit-badge]][runkit-link]
 [![MIT license][license-badge]][license-link]
+![node][node-badge]
 
 <!--consumer-badges end -->
 
@@ -84,3 +85,5 @@ $ npm test
 [github-actions-ci-link]: https://github.com/form8ion/cucumber-scaffolder/actions?query=workflow%3A%22Node.js+CI%22+branch%3Amaster
 
 [github-actions-ci-badge]: https://github.com/form8ion/cucumber-scaffolder/workflows/Node.js%20CI/badge.svg
+
+[node-badge]: https://img.shields.io/node/v/@form8ion/cucumber-scaffolder?logo=node.js

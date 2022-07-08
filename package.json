@@ -3,6 +3,9 @@
   "description": "opinionated scaffolder for Cucumber.js",
   "license": "MIT",
   "version": "0.0.0-semantically-released",
+  "engines": {
+    "node": "^14.18 || >=16"
+  },
   "main": "./lib/index.js",
   "module": "./lib/index.mjs",
   "exports": {
@@ -43,7 +46,8 @@
     "test:integration:debug": "DEBUG=test run-s test:integration",
     "test:integration:wip": "run-s 'test:integration:base -- --profile wip'",
     "test:integration:wip:debug": "DEBUG=test run-s 'test:integration:wip'",
-    "test:integration:focus": "run-s 'test:integration:base -- --profile focus'"
+    "test:integration:focus": "run-s 'test:integration:base -- --profile focus'",
+    "lint:engines": "ls-engines"
   },
   "devDependencies": {
     "@babel/register": "7.18.6",
@@ -63,6 +67,7 @@
     "gherkin-lint": "4.2.2",
     "husky": "8.0.1",
     "lockfile-lint": "4.7.6",
+    "ls-engines": "0.7.0",
     "mocha": "10.0.0",
     "mock-fs": "5.1.2",
     "npm-run-all": "4.1.5",

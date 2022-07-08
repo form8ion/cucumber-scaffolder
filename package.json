@@ -39,7 +39,7 @@
     "test:unit": "cross-env NODE_ENV=test c8 run-s test:unit:base",
     "test:unit:base": "DEBUG=any mocha 'src/**/*-test.js'",
     "prepare": "husky install",
-    "lint:gherkin": "gherkin-lint",
+    "lint:gherkin": "gherkin-lint --config=.gherkin-lintrc.json",
     "test:integration": "run-s 'test:integration:base -- --profile noWip'",
     "pretest:integration:base": "run-s build",
     "test:integration:base": "NODE_OPTIONS=--enable-source-maps DEBUG=any cucumber-js test/integration",
@@ -78,6 +78,8 @@
     "sinon": "14.0.0"
   },
   "dependencies": {
+    "@form8ion/config-file": "^1.0.1",
+    "@form8ion/core": "^1.8.0",
     "filedirname": "^2.7.0"
   }
 }

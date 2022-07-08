@@ -7,7 +7,7 @@ Then('the npm scripts are defined', async function () {
   assert.includeDeepMembers(
     Object.entries(scripts),
     Object.entries({
-      'lint:gherkin': 'gherkin-lint',
+      'lint:gherkin': 'gherkin-lint --config=.gherkin-lintrc.json',
       'test:integration': 'run-s \'test:integration:base -- --profile noWip\'',
       'test:integration:base':
       'NODE_OPTIONS=--enable-source-maps DEBUG=any cucumber-js test/integration',

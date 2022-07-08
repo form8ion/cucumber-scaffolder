@@ -26,7 +26,7 @@ suite('cucumber scaffolder', () => {
       {
         devDependencies: ['@cucumber/cucumber', 'chai', 'gherkin-lint'],
         scripts: {
-          'lint:gherkin': 'gherkin-lint',
+          'lint:gherkin': 'gherkin-lint --config=.gherkin-lintrc.json',
           'test:integration': 'run-s \'test:integration:base -- --profile noWip\'',
           'test:integration:base':
           'NODE_OPTIONS=--enable-source-maps DEBUG=any cucumber-js test/integration',
@@ -41,13 +41,13 @@ suite('cucumber scaffolder', () => {
     assert.calledWith(fsPromises.copyFile, require.resolve('../templates/cucumber.txt'), `${projectRoot}/cucumber.js`);
     assert.calledWith(
       fsPromises.writeFile,
-      `${projectRoot}/.gherkin-lintrc`,
+      `${projectRoot}/.gherkin-lintrc.json`,
       JSON.stringify({
         'no-restricted-tags': ['on', {tags: ['@focus']}],
         'use-and': 'on',
         'no-multiple-empty-lines': 'on',
         'no-dupe-feature-names': 'on'
-      })
+      }, null, 2)
     );
   });
 });

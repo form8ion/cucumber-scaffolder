@@ -32,8 +32,21 @@ suite('cucumber scaffolder', () => {
     fs.readFile.withArgs(pathToTemplate, 'utf-8').resolves(template);
     mustache.render.withArgs(template).returns(renderedTemplate);
 
-    await scaffold({projectRoot});
+    const {devDependencies, scripts, eslintConfigs} = await scaffold({projectRoot});
 
     assert.calledWith(fs.writeFile, `${projectRoot}/cucumber.js`, renderedTemplate);
+    assert.deepEqual(eslintConfigs, ['cucumber']);
+    assert.deepEqual(devDependencies, ['@cucumber/cucumber', 'chai']);
+    assert.deepEqual(
+      scripts,
+      {
+        'test:integration': 'run-s \'test:integration:base -- --profile noWip\'',
+        'test:integration:base': 'NODE_OPTIONS=--enable-source-maps DEBUG=any cucumber-js test/integration',
+        'test:integration:debug': 'DEBUG=test run-s test:integration',
+        'test:integration:wip': 'run-s \'test:integration:base -- --profile wip\'',
+        'test:integration:wip:debug': 'DEBUG=test run-s \'test:integration:wip\'',
+        'test:integration:focus': 'run-s \'test:integration:base -- --profile focus\''
+      }
+    );
   });
 });

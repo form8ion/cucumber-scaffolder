@@ -1,4 +1,4 @@
-import mustache from 'mustache';
+import deepmerge from 'deepmerge';
 
 import {assert} from 'chai';
 import any from '@travi/any';
@@ -15,7 +15,7 @@ suite('cucumber scaffolder', () => {
   setup(() => {
     sandbox = sinon.createSandbox();
 
-    sandbox.stub(mustache, 'render');
+    sandbox.stub(deepmerge, 'all');
     sandbox.stub(gherkinLintScaffolder, 'default');
     sandbox.stub(cucumberScaffolder, 'default');
   });
@@ -23,23 +23,15 @@ suite('cucumber scaffolder', () => {
   teardown(() => sandbox.restore());
 
   test('that cucumber is scaffolded', async () => {
-    assert.deepEqual(
-      await scaffoldCucumber({projectRoot}),
-      {
-        devDependencies: ['@cucumber/cucumber', 'chai', 'gherkin-lint'],
-        scripts: {
-          'lint:gherkin': 'gherkin-lint --config=.gherkin-lintrc.json',
-          'test:integration': 'run-s \'test:integration:base -- --profile noWip\'',
-          'test:integration:base': 'NODE_OPTIONS=--enable-source-maps DEBUG=any cucumber-js test/integration',
-          'test:integration:debug': 'DEBUG=test run-s test:integration',
-          'test:integration:wip': 'run-s \'test:integration:base -- --profile wip\'',
-          'test:integration:wip:debug': 'DEBUG=test run-s \'test:integration:wip\'',
-          'test:integration:focus': 'run-s \'test:integration:base -- --profile focus\''
-        },
-        eslintConfigs: ['cucumber']
-      }
-    );
-    assert.calledWith(cucumberScaffolder.default, {projectRoot});
-    assert.calledWith(gherkinLintScaffolder.default, {projectRoot});
+    const cucumberResults = any.simpleObject();
+    const gherkinLintResults = any.simpleObject();
+    const mergedResults = any.simpleObject();
+    cucumberScaffolder.default.withArgs({projectRoot}).resolves(cucumberResults);
+    gherkinLintScaffolder.default.withArgs({projectRoot}).resolves(gherkinLintResults);
+    deepmerge.all.withArgs([cucumberResults, gherkinLintResults]).returns(mergedResults);
+
+    const results = await scaffoldCucumber({projectRoot});
+
+    assert.equal(results, mergedResults);
   });
 });

@@ -13,4 +13,9 @@ export default async function ({projectRoot}) {
       'no-dupe-feature-names': 'on'
     }
   });
+
+  return {
+    devDependencies: ['gherkin-lint'],
+    scripts: {'lint:gherkin': 'gherkin-lint --config=.gherkin-lintrc.json'}
+  };
 }

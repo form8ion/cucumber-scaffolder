@@ -20,7 +20,7 @@ suite('gherkin-lint scaffolder', () => {
   test('that gherkin-lint is scaffolded', async () => {
     const projectRoot = any.string();
 
-    await scaffold({projectRoot});
+    const {scripts, devDependencies} = await scaffold({projectRoot});
 
     assert.calledWith(
       configFile.write,
@@ -36,5 +36,7 @@ suite('gherkin-lint scaffolder', () => {
         }
       }
     );
+    assert.deepEqual(devDependencies, ['gherkin-lint']);
+    assert.deepEqual(scripts, {'lint:gherkin': 'gherkin-lint --config=.gherkin-lintrc.json'});
   });
 });

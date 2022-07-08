@@ -5,6 +5,7 @@ import {assert} from 'chai';
 import any from '@travi/any';
 import sinon from 'sinon';
 
+import * as gherkinLintScaffolder from './gherkin-lint/scaffolder';
 import scaffoldCucumber from './scaffolder';
 
 suite('cucumber scaffolder', () => {
@@ -16,6 +17,7 @@ suite('cucumber scaffolder', () => {
 
     sandbox.stub(fs, 'readFile');
     sandbox.stub(fs, 'writeFile');
+    sandbox.stub(gherkinLintScaffolder, 'default');
     sandbox.stub(mustache, 'render');
   });
 
@@ -45,15 +47,6 @@ suite('cucumber scaffolder', () => {
       }
     );
     assert.calledWith(fs.writeFile, `${projectRoot}/cucumber.js`, renderedTemplate);
-    assert.calledWith(
-      fs.writeFile,
-      `${projectRoot}/.gherkin-lintrc.json`,
-      JSON.stringify({
-        'no-restricted-tags': ['on', {tags: ['@focus']}],
-        'use-and': 'on',
-        'no-multiple-empty-lines': 'on',
-        'no-dupe-feature-names': 'on'
-      }, null, 2)
-    );
+    assert.calledWith(gherkinLintScaffolder.default, {projectRoot});
   });
 });

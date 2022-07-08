@@ -3,8 +3,8 @@ import {promises as fs} from 'node:fs';
 
 import filedirname from 'filedirname';
 import mustache from 'mustache';
-import {fileTypes} from '@form8ion/core';
-import {write} from '@form8ion/config-file';
+
+import {scaffold} from './gherkin-lint';
 
 export default async function ({projectRoot}) {
   const [, __dirname] = filedirname();
@@ -14,17 +14,7 @@ export default async function ({projectRoot}) {
       `${projectRoot}/cucumber.js`,
       mustache.render(await fs.readFile(resolve(__dirname, '..', 'templates', 'cucumber.mjs'), 'utf-8'))
     ),
-    write({
-      path: projectRoot,
-      name: 'gherkin-lint',
-      format: fileTypes.JSON,
-      config: {
-        'no-restricted-tags': ['on', {tags: ['@focus']}],
-        'use-and': 'on',
-        'no-multiple-empty-lines': 'on',
-        'no-dupe-feature-names': 'on'
-      }
-    })
+    scaffold({projectRoot})
   ]);
 
   return {

@@ -25,7 +25,7 @@ export default async function ({projectRoot}) {
       'lint:gherkin': 'gherkin-lint',
       'test:integration': 'run-s \'test:integration:base -- --profile noWip\'',
       'test:integration:base':
-      'NODE_OPTIONS=--enable-source-maps DEBUG=any cucumber-js test/integration --profile base',
+      'NODE_OPTIONS=--enable-source-maps DEBUG=any cucumber-js test/integration',
       'test:integration:debug': 'DEBUG=test run-s test:integration',
       'test:integration:wip': 'run-s \'test:integration:base -- --profile wip\'',
       'test:integration:wip:debug': 'DEBUG=test run-s \'test:integration:wip\'',

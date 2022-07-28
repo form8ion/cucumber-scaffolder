@@ -36,10 +36,11 @@ suite('cucumber scaffolder', () => {
     mustache.render.withArgs(template, {extension}).returns(renderedTemplate);
     extensionResolver.default.withArgs({projectRoot}).resolves(extension);
 
-    const {devDependencies, scripts, eslintConfigs} = await scaffold({projectRoot});
+    const {devDependencies, scripts, eslintConfigs, eslint: {configs}} = await scaffold({projectRoot});
 
     assert.calledWith(fs.writeFile, `${projectRoot}/cucumber.${extension}`, renderedTemplate);
     assert.deepEqual(eslintConfigs, ['cucumber']);
+    assert.deepEqual(configs, ['cucumber']);
     assert.deepEqual(devDependencies, ['@cucumber/cucumber', 'chai']);
     assert.deepEqual(
       scripts,

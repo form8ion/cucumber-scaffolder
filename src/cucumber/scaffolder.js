@@ -7,6 +7,8 @@ import resolveExtensionForProjectType from './extension-resolver';
 
 export default async function ({projectRoot}) {
   const extension = await resolveExtensionForProjectType({projectRoot});
+  const eslintConfigs = ['cucumber'];
+
   await fs.writeFile(
     `${projectRoot}/cucumber.${extension}`,
     mustache.render(await fs.readFile(determinePathToTemplate('cucumber.mustache'), 'utf-8'), {extension})
@@ -14,7 +16,8 @@ export default async function ({projectRoot}) {
 
   return {
     devDependencies: ['@cucumber/cucumber', 'chai'],
-    eslintConfigs: ['cucumber'],
+    eslintConfigs,
+    eslint: {configs: eslintConfigs},
     scripts: {
       'test:integration': 'run-s \'test:integration:base -- --profile noWip\'',
       'test:integration:base': 'NODE_OPTIONS=--enable-source-maps DEBUG=any cucumber-js test/integration',

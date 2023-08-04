@@ -18,16 +18,17 @@ jobs:
     strategy:
       matrix:
         node:
-          - 14.18.0
-          - 16.0.0
-          - 16
+          - 16.14.0
+          - 18.0.0
+          - 18
+          - 20
     steps:
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
       - name: Setup node
         uses: actions/setup-node@e33196f7422957bea03ed53f6fbb155025ffc7b8 # v3.7.0
         with:
-          node-version: ${{ matrix.node }}
           cache: npm
+          node-version: ${{ matrix.node }}
       - run: npm clean-install
       - run: npm test
   verify:
@@ -41,22 +42,18 @@ jobs:
           cache: npm
       - run: npm clean-install
       - run: npm test
-      - uses: codecov/codecov-action@eaaf4bedf32dbdc6b720b63067d99c4d77d6047d # v3.1.4
-  trigger-release:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push'
+      - uses: codecov/codecov-action@eaaf4bedf32dbdc6b720b63067d99c4d77d6047d
+  release:
     needs:
       - verify
       - verify-matrix
-    steps:
-      - uses: octokit/request-action@v2.x
-        with:
-          route: >-
-            POST
-            /repos/{owner}/{repo}/actions/workflows/{workflow_id}/dispatches
-          owner: form8ion
-          repo: cucumber-scaffolder
-          ref: ${{ github.ref }}
-          workflow_id: release.yml
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+    permissions:
+      contents: write
+      id-token: write
+      issues: write
+      pull-requests: write
+    uses: form8ion/.github/.github/workflows/release-package.yml@master
+    secrets:
+      NPM_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+permissions:
+  contents: read

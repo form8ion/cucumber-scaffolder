@@ -6,7 +6,7 @@ import {After, Before, Given, When} from '@cucumber/cucumber';
 import stubbedFs from 'mock-fs';
 
 let scaffold;
-const __dirname = dirname(fileURLToPath(import.meta.url));
+const __dirname = dirname(fileURLToPath(import.meta.url));            // eslint-disable-line no-underscore-dangle
 const pathToProjectRoot = [__dirname, '..', '..', '..', '..'];
 
 Before(async function () {
@@ -21,7 +21,7 @@ Before(async function () {
   });
 });
 
-After(function () {
+After(() => {
   stubbedFs.restore();
 });
 
@@ -30,5 +30,8 @@ Given('the project is of type {string}', async function (moduleType) {
 });
 
 When('the project is scaffolded', async function () {
-  this.scaffoldResult = await scaffold({projectRoot: this.scaffoldRoot, ...this.scope && {config: {scope: this.scope}}});
+  this.scaffoldResult = await scaffold({
+    projectRoot: this.scaffoldRoot,
+    ...this.scope && {config: {scope: this.scope}}
+  });
 });

@@ -6,6 +6,7 @@ opinionated scaffolder for [Cucumber.js](https://github.com/cucumber/cucumber-js
 
 [![Node CI Workflow Status][github-actions-ci-badge]][github-actions-ci-link]
 ![SLSA Level 2][slsa-badge]
+[![Codecov][coverage-badge]][coverage-link]
 
 <!--status-badges end -->
 
@@ -90,3 +91,7 @@ $ npm test
 [node-badge]: https://img.shields.io/node/v/@form8ion/cucumber-scaffolder?logo=node.js
 
 [slsa-badge]: https://slsa.dev/images/gh-badge-level2.svg
+
+[coverage-link]: https://codecov.io/github/form8ion/cucumber-scaffolder
+
+[coverage-badge]: https://img.shields.io/codecov/c/github/form8ion/cucumber-scaffolder?logo=codecov

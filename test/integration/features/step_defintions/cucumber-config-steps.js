@@ -10,8 +10,7 @@ Then('the cucumber config is written to a(n) {string} file', async function (fil
     cucumberConfig,
     `const base = {
   formatOptions: {snippetInterface: 'async-await'},
-  import: ['test/integration/features/**/*.${fileExtension}'],
-  publishQuiet: true
+  import: ['test/integration/features/**/*.${fileExtension}']
 };
 
 export default base;

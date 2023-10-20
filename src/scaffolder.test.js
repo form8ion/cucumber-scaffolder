@@ -4,9 +4,9 @@ import {describe, vi, it, expect, afterEach} from 'vitest';
 import any from '@travi/any';
 import {when} from 'jest-when';
 
-import scaffoldCucumber from './cucumber/scaffolder';
-import scaffoldGherkinLint from './gherkin-lint/scaffolder';
-import scaffold from './scaffolder';
+import scaffoldCucumber from './cucumber/scaffolder.js';
+import scaffoldGherkinLint from './gherkin-lint/scaffolder.js';
+import scaffold from './scaffolder.js';
 
 vi.mock('deepmerge');
 vi.mock('./cucumber/scaffolder');

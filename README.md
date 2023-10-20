@@ -54,7 +54,7 @@ $ npm test
 
 [npm-link]: https://www.npmjs.com/package/@form8ion/cucumber-scaffolder
 
-[npm-badge]: https://img.shields.io/npm/v/@form8ion/cucumber-scaffolder.svg
+[npm-badge]: https://img.shields.io/npm/v/@form8ion/cucumber-scaffolder?logo=npm
 
 [runkit-link]: https://npm.runkit.com/@form8ion/cucumber-scaffolder
 

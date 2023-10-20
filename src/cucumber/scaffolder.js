@@ -2,8 +2,8 @@ import {promises as fs} from 'node:fs';
 
 import mustache from 'mustache';
 
-import determinePathToTemplate from '../template-path';
-import resolveExtensionForProjectType from './extension-resolver';
+import determinePathToTemplate from '../template-path.js';
+import resolveExtensionForProjectType from './extension-resolver.js';
 
 export default async function ({projectRoot}) {
   const extension = await resolveExtensionForProjectType({projectRoot});

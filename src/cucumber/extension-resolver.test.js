@@ -4,7 +4,7 @@ import {describe, vi, it, expect, afterEach} from 'vitest';
 import any from '@travi/any';
 import {when} from 'jest-when';
 
-import resolveExtension from './extension-resolver';
+import resolveExtension from './extension-resolver.js';
 
 vi.mock('node:fs');
 

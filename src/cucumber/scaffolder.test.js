@@ -5,9 +5,9 @@ import {describe, expect, it, vi} from 'vitest';
 import any from '@travi/any';
 import {when} from 'jest-when';
 
-import determinePathToTemplate from '../template-path';
-import resolveExtension from './extension-resolver';
-import scaffold from './scaffolder';
+import determinePathToTemplate from '../template-path.js';
+import resolveExtension from './extension-resolver.js';
+import scaffold from './scaffolder.js';
 
 vi.mock('node:fs');
 vi.mock('mustache');

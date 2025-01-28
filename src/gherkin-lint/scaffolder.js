@@ -15,7 +15,7 @@ export default async function ({projectRoot}) {
   });
 
   return {
-    devDependencies: ['gherkin-lint'],
+    dependencies: {javascript: {development: ['gherkin-lint']}},
     scripts: {'lint:gherkin': 'gherkin-lint --config=.gherkin-lintrc.json'}
   };
 }

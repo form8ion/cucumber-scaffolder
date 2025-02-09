@@ -62,7 +62,7 @@ $ npm test
 
 [license-link]: LICENSE
 
-[license-badge]: https://img.shields.io/github/license/form8ion/cucumber-scaffolder.svg
+[license-badge]: https://img.shields.io/github/license/form8ion/cucumber-scaffolder.svg?logo=opensourceinitiative
 
 [commit-convention-link]: https://conventionalcommits.org
 

@@ -26,12 +26,12 @@ describe('cucumber scaffolder', () => {
     when(mustache.render).calledWith(template, {extension}).mockReturnValue(renderedTemplate);
     when(resolveExtension).calledWith({projectRoot}).mockResolvedValue(extension);
 
-    const {devDependencies, scripts, eslintConfigs, eslint: {configs}} = await scaffold({projectRoot});
+    const {dependencies, scripts, eslintConfigs, eslint: {configs}} = await scaffold({projectRoot});
 
     expect(fs.writeFile).toHaveBeenCalledWith(`${projectRoot}/cucumber.${extension}`, renderedTemplate);
     expect(eslintConfigs).toEqual(['cucumber']);
     expect(configs).toEqual(['cucumber']);
-    expect(devDependencies).toEqual(['@cucumber/cucumber', 'chai']);
+    expect(dependencies.javascript.development).toEqual(['@cucumber/cucumber', 'chai']);
     expect(scripts).toEqual({
       'test:integration': 'run-s \'test:integration:base -- --profile noWip\'',
       'test:integration:base': 'NODE_OPTIONS=--enable-source-maps DEBUG=any cucumber-js test/integration',

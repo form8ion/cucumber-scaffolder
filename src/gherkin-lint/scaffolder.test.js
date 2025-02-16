@@ -16,7 +16,7 @@ describe('gherkin-lint scaffolder', () => {
   it('should scaffold gherkin-lint', async () => {
     const projectRoot = any.string();
 
-    const {scripts, devDependencies} = await scaffold({projectRoot});
+    const {scripts, dependencies} = await scaffold({projectRoot});
 
     expect(writeConfigFile).toHaveBeenCalledWith({
       format: fileTypes.JSON,
@@ -29,7 +29,7 @@ describe('gherkin-lint scaffolder', () => {
         'no-dupe-feature-names': 'on'
       }
     });
-    expect(devDependencies).toEqual(['gherkin-lint']);
+    expect(dependencies.javascript.development).toEqual(['gherkin-lint']);
     expect(scripts).toEqual({'lint:gherkin': 'gherkin-lint --config=.gherkin-lintrc.json'});
   });
 });

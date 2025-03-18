@@ -15,7 +15,7 @@ export default async function ({projectRoot}) {
   );
 
   return {
-    dependencies: {javascript: {development: ['@cucumber/cucumber', 'chai']}},
+    dependencies: {javascript: {development: ['@cucumber/cucumber']}},
     eslintConfigs,
     eslint: {configs: eslintConfigs},
     scripts: {

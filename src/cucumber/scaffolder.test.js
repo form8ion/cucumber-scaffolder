@@ -31,7 +31,7 @@ describe('cucumber scaffolder', () => {
     expect(fs.writeFile).toHaveBeenCalledWith(`${projectRoot}/cucumber.${extension}`, renderedTemplate);
     expect(eslintConfigs).toEqual(['cucumber']);
     expect(configs).toEqual(['cucumber']);
-    expect(dependencies.javascript.development).toEqual(['@cucumber/cucumber', 'chai']);
+    expect(dependencies.javascript.development).toEqual(['@cucumber/cucumber']);
     expect(scripts).toEqual({
       'test:integration': 'run-s \'test:integration:base -- --profile noWip\'',
       'test:integration:base': 'NODE_OPTIONS=--enable-source-maps DEBUG=any cucumber-js test/integration',

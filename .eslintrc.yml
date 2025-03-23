@@ -1,10 +1,4 @@
 extends:
   - '@form8ion'
+  - '@form8ion/vitest'
   - '@form8ion/cucumber'
-
-rules:
-  import/no-unresolved:
-    - error
-    - ignore:
-      - vitest/config
-      - vitest-when

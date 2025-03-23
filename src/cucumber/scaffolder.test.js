@@ -3,7 +3,7 @@ import mustache from 'mustache';
 
 import {describe, expect, it, vi} from 'vitest';
 import any from '@travi/any';
-import {when} from 'jest-when';
+import {when} from 'vitest-when';
 
 import determinePathToTemplate from '../template-path.js';
 import resolveExtension from './extension-resolver.js';
@@ -21,10 +21,10 @@ describe('cucumber scaffolder', () => {
     const projectRoot = any.string();
     const pathToTemplate = any.string();
     const extension = any.word();
-    when(determinePathToTemplate).calledWith('cucumber.mustache').mockReturnValue(pathToTemplate);
-    when(fs.readFile).calledWith(pathToTemplate, 'utf-8').mockResolvedValue(template);
-    when(mustache.render).calledWith(template, {extension}).mockReturnValue(renderedTemplate);
-    when(resolveExtension).calledWith({projectRoot}).mockResolvedValue(extension);
+    when(determinePathToTemplate).calledWith('cucumber.mustache').thenReturn(pathToTemplate);
+    when(fs.readFile).calledWith(pathToTemplate, 'utf-8').thenResolve(template);
+    when(mustache.render).calledWith(template, {extension}).thenReturn(renderedTemplate);
+    when(resolveExtension).calledWith({projectRoot}).thenResolve(extension);
 
     const {dependencies, scripts, eslintConfigs, eslint: {configs}} = await scaffold({projectRoot});
 

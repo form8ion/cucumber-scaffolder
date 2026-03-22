@@ -5,7 +5,7 @@ import mustache from 'mustache';
 import determinePathToTemplate from '../template-path.js';
 import resolveExtensionForProjectType from './extension-resolver.js';
 
-export default async function ({projectRoot}) {
+export default async function scaffoldCucumber({projectRoot}) {
   const extension = await resolveExtensionForProjectType({projectRoot});
   const eslintConfigs = ['cucumber'];
 

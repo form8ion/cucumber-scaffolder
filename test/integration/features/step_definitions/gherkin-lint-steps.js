@@ -4,7 +4,7 @@ import {Then} from '@cucumber/cucumber';
 import {assert} from 'chai';
 
 Then('gherkin-lint is configured', async function () {
-  const gherkinLintConfig = JSON.parse(await fs.readFile(`${this.scaffoldRoot}/.gherkin-lintrc.json`, 'utf-8'));
+  const gherkinLintConfig = JSON.parse(await fs.readFile(`${this.projectRoot}/.gherkin-lintrc.json`, 'utf-8'));
 
   assert.deepEqual(
     gherkinLintConfig,

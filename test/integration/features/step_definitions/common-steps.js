@@ -10,7 +10,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));            // eslint-
 const pathToProjectRoot = [__dirname, '..', '..', '..', '..'];
 
 Before(async function () {
-  this.scaffoldRoot = process.cwd();
+  this.projectRoot = process.cwd();
 
   // eslint-disable-next-line import/no-extraneous-dependencies,import/no-unresolved
   ({scaffold} = await import('@form8ion/cucumber-scaffolder'));
@@ -26,12 +26,12 @@ After(() => {
 });
 
 Given('the project is of type {string}', async function (moduleType) {
-  await fs.writeFile(`${this.scaffoldRoot}/package.json`, JSON.stringify({type: moduleType}));
+  await fs.writeFile(`${this.projectRoot}/package.json`, JSON.stringify({type: moduleType}));
 });
 
 When('the project is scaffolded', async function () {
   this.scaffoldResult = await scaffold({
-    projectRoot: this.scaffoldRoot,
+    projectRoot: this.projectRoot,
     ...this.scope && {config: {scope: this.scope}}
   });
 });

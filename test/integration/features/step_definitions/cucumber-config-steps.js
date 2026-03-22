@@ -4,7 +4,7 @@ import {Then} from '@cucumber/cucumber';
 import {assert} from 'chai';
 
 Then('the cucumber config is written to a(n) {string} file', async function (fileExtension) {
-  const cucumberConfig = await fs.readFile(`${this.scaffoldRoot}/cucumber.${fileExtension}`, 'utf-8');
+  const cucumberConfig = await fs.readFile(`${this.projectRoot}/cucumber.${fileExtension}`, 'utf-8');
 
   assert.equal(
     cucumberConfig,

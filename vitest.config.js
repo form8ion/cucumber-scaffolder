@@ -4,6 +4,10 @@ export default defineConfig({
   test: {
     restoreMocks: true,
 
+    reporters: process.env.CODECOV_TOKEN
+      ? ['default', ['junit', {outputFile: 'unit.junit.xml'}]]
+      : ['default'],
+
     coverage: {
       provider: 'v8',
       reporter: ['lcov', 'text-summary', 'html'],

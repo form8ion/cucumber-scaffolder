@@ -1,8 +1,7 @@
 const base = {
   ...(process.env.CODECOV_TOKEN ? {format: ['progress', 'junit:integration.junit.xml']} : {}),
   formatOptions: {snippetInterface: 'async-await'},
-  import: ['test/integration/features/**/*.js'],
-  publishQuiet: true
+  import: ['test/integration/features/**/*.js']
 };
 
 export default base;

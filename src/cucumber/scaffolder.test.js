@@ -1,34 +1,18 @@
-import {promises as fs} from 'node:fs';
-import mustache from 'mustache';
-
 import {describe, expect, it, vi} from 'vitest';
 import any from '@travi/any';
-import {when} from 'vitest-when';
 
-import determinePathToTemplate from '../template-path.js';
-import resolveExtension from './extension-resolver.js';
+import {scaffold as scaffoldConfig} from './config/index.js';
 import scaffold from './scaffolder.js';
 
-vi.mock('node:fs');
-vi.mock('mustache');
-vi.mock('./extension-resolver');
-vi.mock('../template-path');
+vi.mock('./config/index.js');
 
 describe('cucumber scaffolder', () => {
-  it('should scaffold cucumber for an ESM project', async () => {
-    const renderedTemplate = any.string();
-    const template = any.string();
+  it('should scaffold cucumber', async () => {
     const projectRoot = any.string();
-    const pathToTemplate = any.string();
-    const extension = any.word();
-    when(determinePathToTemplate).calledWith('cucumber.mustache').thenReturn(pathToTemplate);
-    when(fs.readFile).calledWith(pathToTemplate, 'utf-8').thenResolve(template);
-    when(mustache.render).calledWith(template, {extension}).thenReturn(renderedTemplate);
-    when(resolveExtension).calledWith({projectRoot}).thenResolve(extension);
 
     const {dependencies, scripts, eslintConfigs, eslint: {configs}} = await scaffold({projectRoot});
 
-    expect(fs.writeFile).toHaveBeenCalledWith(`${projectRoot}/cucumber.${extension}`, renderedTemplate);
+    expect(scaffoldConfig).toHaveBeenCalledWith({projectRoot});
     expect(eslintConfigs).toEqual(['cucumber']);
     expect(configs).toEqual(['cucumber']);
     expect(dependencies.javascript.development).toEqual(['@cucumber/cucumber']);

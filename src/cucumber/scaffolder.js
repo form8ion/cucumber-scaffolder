@@ -1,18 +1,9 @@
-import {promises as fs} from 'node:fs';
-
-import mustache from 'mustache';
-
-import determinePathToTemplate from '../template-path.js';
-import resolveExtensionForProjectType from './extension-resolver.js';
+import {scaffold as scaffoldConfig} from './config/index.js';
 
 export default async function scaffoldCucumber({projectRoot}) {
-  const extension = await resolveExtensionForProjectType({projectRoot});
   const eslintConfigs = ['cucumber'];
 
-  await fs.writeFile(
-    `${projectRoot}/cucumber.${extension}`,
-    mustache.render(await fs.readFile(determinePathToTemplate('cucumber.mustache'), 'utf-8'), {extension})
-  );
+  await scaffoldConfig({projectRoot});
 
   return {
     dependencies: {javascript: {development: ['@cucumber/cucumber']}},

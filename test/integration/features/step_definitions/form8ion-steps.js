@@ -1,14 +1,10 @@
-import {validateOptions, optionsSchemas} from '@form8ion/core';
+import {optionsSchemas, validateOptions} from '@form8ion/core';
 
-import {Then, When} from '@cucumber/cucumber';
+import {Then} from '@cucumber/cucumber';
 import assert from 'node:assert';
 
 // eslint-disable-next-line import/no-extraneous-dependencies,import/no-unresolved
 import * as plugin from '@form8ion/cucumber-scaffolder';
-
-When('the github plugin is compared to form8ion plugin conventions', async function () {
-  await plugin.scaffold({projectRoot: this.projectRoot});
-});
 
 Then('the public interface is compatible with the plugin schema', async function () {
   validateOptions(optionsSchemas.form8ionPlugin, plugin);

@@ -1,7 +1,12 @@
 import {promises as fs} from 'node:fs';
 
-import {Then} from '@cucumber/cucumber';
+import {Given, Then} from '@cucumber/cucumber';
 import {assert} from 'chai';
+import any from '@travi/any';
+
+Given('the project is using Cucumber.js', async function () {
+  await fs.writeFile(`${this.projectRoot}/cucumber.js`, any.string());
+});
 
 Then('the cucumber config is written to a(n) {string} file', async function (fileExtension) {
   const cucumberConfig = await fs.readFile(`${this.projectRoot}/cucumber.${fileExtension}`, 'utf-8');

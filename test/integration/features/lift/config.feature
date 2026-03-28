@@ -2,7 +2,8 @@ Feature: Lift Config
 
   @wip
   Scenario: Config with leftover `publishQuiet` property
-    Given the .codecov.yml file exists in the root of the repository with the following content:
+    Given the project is using Cucumber.js
+    And the .codecov.yml file exists in the root of the repository with the following content:
       """
       publishQuiet: true
       """

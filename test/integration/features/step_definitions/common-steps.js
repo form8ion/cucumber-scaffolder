@@ -5,7 +5,7 @@ import {promises as fs} from 'node:fs';
 import {After, Before, Given, When} from '@cucumber/cucumber';
 import stubbedFs from 'mock-fs';
 
-let scaffold;
+let scaffold, test, lift;
 const __dirname = dirname(fileURLToPath(import.meta.url));            // eslint-disable-line no-underscore-dangle
 const pathToProjectRoot = [__dirname, '..', '..', '..', '..'];
 
@@ -13,7 +13,7 @@ Before(async function () {
   this.projectRoot = process.cwd();
 
   // eslint-disable-next-line import/no-extraneous-dependencies,import/no-unresolved
-  ({scaffold} = await import('@form8ion/cucumber-scaffolder'));
+  ({scaffold, test, lift} = await import('@form8ion/cucumber-scaffolder'));
 
   stubbedFs({
     node_modules: stubbedFs.load(resolve(...pathToProjectRoot, 'node_modules')),
@@ -34,4 +34,10 @@ When('the project is scaffolded', async function () {
     projectRoot: this.projectRoot,
     ...this.scope && {config: {scope: this.scope}}
   });
+});
+
+When('the project is lifted', async function () {
+  if (await test({projectRoot: this.projectRoot})) {
+    await lift({projectRoot: this.projectRoot});
+  }
 });

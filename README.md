@@ -94,4 +94,4 @@ $ npm test
 
 [coverage-link]: https://codecov.io/github/form8ion/cucumber-scaffolder
 
-[coverage-badge]: https://img.shields.io/codecov/c/github/form8ion/cucumber-scaffolder?logo=codecov
+[coverage-badge]: https://img.shields.io/codecov/c/github/form8ion/cucumber-scaffolder/master?logo=codecov

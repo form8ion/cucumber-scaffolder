@@ -13,8 +13,13 @@ Given('no JetBrains run configurations exist for the project', async function ()
 });
 
 Then('run configurations for the primary scripts are created', async function () {
+  const [integrationTests, focusedTests] = await Promise.all([
+    fs.readFile(`${this.projectRoot}/.idea/runConfigurations/Integration_Tests.xml`, 'utf-8'),
+    fs.readFile(`${this.projectRoot}/.idea/runConfigurations/Focused_Integration_Tests.xml`, 'utf-8')
+  ]);
+
   assert.equal(
-    await fs.readFile(`${this.projectRoot}/.idea/runConfigurations/Integration_Tests.xml`, 'utf-8'),
+    integrationTests,
     `<component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Integration Tests" type="cucumber.js" factoryName="Cucumber.js">
     <option name="myFilePath" value="$PROJECT_DIR$/test/integration/features" />
@@ -23,6 +28,23 @@ Then('run configurations for the primary scripts are created', async function ()
     <option name="workingDirectory" value="$PROJECT_DIR$" />
     <envs>
       <env name="NODE_ENV" value="test" />
+      <env name="NODE_OPTIONS" value="--enable-source-maps" />
+    </envs>
+    <method v="2" />
+  </configuration>
+</component>`
+  );
+  assert.equal(
+    focusedTests,
+    `<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Focused Integration Tests" type="cucumber.js" factoryName="Cucumber.js">
+    <option name="myFilePath" value="$PROJECT_DIR$/test/integration/features" />
+    <option name="myNameFilter" value="" />
+    <option name="cucumberJsArguments" value="--config=./cucumber.js --profile=focus" />
+    <option name="workingDirectory" value="$PROJECT_DIR$" />
+    <envs>
+      <env name="NODE_ENV" value="development" />
+      <env name="DEBUG" value="test:*" />
       <env name="NODE_OPTIONS" value="--enable-source-maps" />
     </envs>
     <method v="2" />

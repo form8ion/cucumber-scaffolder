@@ -30,5 +30,22 @@ describe('run-configuration scaffolder', () => {
   </configuration>
 </component>`
     );
+    expect(fs.writeFile).toHaveBeenCalledWith(
+      `${projectRoot}/.idea/runConfigurations/Focused_Integration_Tests.xml`,
+      `<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Focused Integration Tests" type="cucumber.js" factoryName="Cucumber.js">
+    <option name="myFilePath" value="$PROJECT_DIR$/test/integration/features" />
+    <option name="myNameFilter" value="" />
+    <option name="cucumberJsArguments" value="--config=./cucumber.js --profile=focus" />
+    <option name="workingDirectory" value="$PROJECT_DIR$" />
+    <envs>
+      <env name="NODE_ENV" value="development" />
+      <env name="DEBUG" value="test:*" />
+      <env name="NODE_OPTIONS" value="--enable-source-maps" />
+    </envs>
+    <method v="2" />
+  </configuration>
+</component>`
+    );
   });
 });

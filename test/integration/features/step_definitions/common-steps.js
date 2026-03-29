@@ -31,7 +31,7 @@ Given('the project is of type {string}', async function (moduleType) {
 });
 
 When('the project is scaffolded', async function () {
-  this.scaffoldResult = await scaffold({
+  this.results = await scaffold({
     projectRoot: this.projectRoot,
     ...this.scope && {config: {scope: this.scope}}
   });
@@ -39,6 +39,9 @@ When('the project is scaffolded', async function () {
 
 When('the project is lifted', async function () {
   if (await test({projectRoot: this.projectRoot})) {
-    await lift({projectRoot: this.projectRoot, packageDetails: await loadPackageJson({projectRoot: this.projectRoot})});
+    this.results = await lift({
+      projectRoot: this.projectRoot,
+      packageDetails: await loadPackageJson({projectRoot: this.projectRoot})
+    });
   }
 });

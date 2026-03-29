@@ -7,7 +7,7 @@ import scaffoldRunConfiguration from './scaffolder.js';
 
 vi.mock('node:fs');
 
-describe('run-configuration scaffolder', () => {
+describe('run-configurations scaffolder', () => {
   const projectRoot = any.string();
 
   it('should create run-configurations for integration-testing with cucumber', async () => {

@@ -1,6 +1,24 @@
 import {promises as fs} from 'node:fs';
 
-export default async function scaffoldRunConfigurations({projectRoot}) {
+function projectHasBuildStep(packageDetails) {
+  return !!packageDetails.scripts.build;
+}
+
+function buildBeforeRunningTests() {
+  return `<method v="2">
+      <option name="NpmBeforeRunTask" enabled="true">
+        <package-json value="$PROJECT_DIR$/package.json" />
+        <command value="run" />
+        <scripts>
+          <script value="build" />
+        </scripts>
+        <node-interpreter value="project" />
+        <envs />
+      </option>
+    </method>`;
+}
+
+export default async function scaffoldRunConfigurations({projectRoot, packageDetails}) {
   await fs.mkdir(`${projectRoot}/.idea/runConfigurations`, {recursive: true});
 
   await Promise.all([
@@ -16,7 +34,7 @@ export default async function scaffoldRunConfigurations({projectRoot}) {
       <env name="NODE_ENV" value="test" />
       <env name="NODE_OPTIONS" value="--enable-source-maps" />
     </envs>
-    <method v="2" />
+    ${projectHasBuildStep(packageDetails) ? buildBeforeRunningTests() : '<method v="2" />'}
   </configuration>
 </component>`
     ),
@@ -33,7 +51,7 @@ export default async function scaffoldRunConfigurations({projectRoot}) {
       <env name="DEBUG" value="test:*" />
       <env name="NODE_OPTIONS" value="--enable-source-maps" />
     </envs>
-    <method v="2" />
+    ${projectHasBuildStep(packageDetails) ? buildBeforeRunningTests() : '<method v="2" />'}
   </configuration>
 </component>`
     )

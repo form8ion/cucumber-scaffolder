@@ -1,6 +1,7 @@
 import {dirname, resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {promises as fs} from 'node:fs';
+import {loadPackageJson} from '@form8ion/javascript-core';
 
 import {After, Before, Given, When} from '@cucumber/cucumber';
 import stubbedFs from 'mock-fs';
@@ -38,6 +39,6 @@ When('the project is scaffolded', async function () {
 
 When('the project is lifted', async function () {
   if (await test({projectRoot: this.projectRoot})) {
-    await lift({projectRoot: this.projectRoot});
+    await lift({projectRoot: this.projectRoot, packageDetails: await loadPackageJson({projectRoot: this.projectRoot})});
   }
 });

@@ -9,13 +9,14 @@ vi.mock('./run-configuration/index.js');
 
 describe('lifter', () => {
   const projectRoot = any.string();
+  const packageDetails = any.simpleObject();
 
   it('should lift the cucumber details', async () => {
     when(jetbrainsIdeIsDetected).calledWith({projectRoot}).thenResolve(true);
 
-    expect(await lift({projectRoot})).toEqual({});
+    expect(await lift({projectRoot, packageDetails})).toEqual({});
 
-    expect(scaffoldRunConfigurations).toHaveBeenCalledWith({projectRoot});
+    expect(scaffoldRunConfigurations).toHaveBeenCalledWith({projectRoot, packageDetails});
   });
 
   it('should not create JetBrains run configurations when no JetBrains IDE is detected', async () => {

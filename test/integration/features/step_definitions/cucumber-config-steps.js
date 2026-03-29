@@ -5,7 +5,13 @@ import {assert} from 'chai';
 import any from '@travi/any';
 
 Given('the project is using Cucumber.js', async function () {
-  await fs.writeFile(`${this.projectRoot}/cucumber.js`, any.string());
+  await Promise.all([
+    fs.writeFile(`${this.projectRoot}/cucumber.js`, any.string()),
+    fs.writeFile(
+      `${this.projectRoot}/package.json`,
+      JSON.stringify({...any.simpleObject(), scripts: any.simpleObject()})
+    )
+  ]);
 });
 
 Then('the cucumber config is written to a(n) {string} file', async function (fileExtension) {

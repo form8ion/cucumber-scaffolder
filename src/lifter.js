@@ -1,5 +1,13 @@
-import {lift as liftCucumber} from './cucumber/index.js';
+import deepmerge from 'deepmerge';
 
-export default function lift({projectRoot, packageDetails}) {
-  return liftCucumber({projectRoot, packageDetails});
+import {lift as liftCucumber} from './cucumber/index.js';
+import {lift as liftLinting} from './lint/index.js';
+
+export default async function lift({projectRoot, packageDetails}) {
+  const [cucumberResults, lintingResults] = await Promise.all([
+    liftCucumber({projectRoot, packageDetails}),
+    liftLinting({projectRoot})
+  ]);
+
+  return deepmerge(cucumberResults, lintingResults);
 }

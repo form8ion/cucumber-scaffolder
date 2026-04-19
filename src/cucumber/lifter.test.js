@@ -9,7 +9,7 @@ import lift from './lifter.js';
 vi.mock('./scripts/index.js');
 vi.mock('./run-configurations/index.js');
 
-describe('lifter', () => {
+describe('cucumber lifter', () => {
   const projectRoot = any.string();
   const packageDetails = any.simpleObject();
   const scriptsResults = any.simpleObject();

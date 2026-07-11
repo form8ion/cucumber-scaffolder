@@ -1,9 +1,16 @@
+import {promises as fs} from 'node:fs';
+
 import {scaffold as scaffoldConfig} from './config/index.js';
 
 export default async function scaffoldCucumber({projectRoot}) {
   const eslintConfigs = ['cucumber'];
 
-  await scaffoldConfig({projectRoot});
+  await Promise.all([
+    scaffoldConfig({projectRoot}),
+    fs.mkdir(`${projectRoot}/test/integration/features/step_definitions`, {recursive: true})
+  ]);
+
+  await fs.writeFile(`${projectRoot}/test/integration/features/step_definitions/.gitkeep`, '');
 
   return {
     dependencies: {javascript: {development: ['@cucumber/cucumber']}},

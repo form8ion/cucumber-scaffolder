@@ -1,9 +1,12 @@
+import {promises as fs} from 'node:fs';
+
 import {describe, expect, it, vi} from 'vitest';
 import any from '@travi/any';
 
 import {scaffold as scaffoldConfig} from './config/index.js';
 import scaffold from './scaffolder.js';
 
+vi.mock('node:fs');
 vi.mock('./config/index.js');
 
 describe('cucumber scaffolder', () => {
@@ -13,6 +16,14 @@ describe('cucumber scaffolder', () => {
     const {dependencies, scripts, eslintConfigs, eslint: {configs}} = await scaffold({projectRoot});
 
     expect(scaffoldConfig).toHaveBeenCalledWith({projectRoot});
+    expect(fs.mkdir).toHaveBeenCalledWith(
+      `${projectRoot}/test/integration/features/step_definitions`,
+      {recursive: true}
+    );
+    expect(fs.writeFile).toHaveBeenCalledWith(
+      `${projectRoot}/test/integration/features/step_definitions/.gitkeep`,
+      ''
+    );
     expect(eslintConfigs).toEqual(['cucumber']);
     expect(configs).toEqual(['cucumber']);
     expect(dependencies.javascript.development).toEqual(['@cucumber/cucumber']);
